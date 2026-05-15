@@ -19,11 +19,20 @@ Test Types:
 
 import asyncio
 import aiohttp
-import requests
-import time
 import multiprocessing
+import os
+import subprocess
+import sys
+import time
+from concurrent.futures import ProcessPoolExecutor, ThreadPoolExecutor
+from datetime import datetime, timezone
+from pathlib import Path
 
-from concurrent.futures import ThreadPoolExecutor, ProcessPoolExecutor
+import requests
+
+README_FILE = "README.md"
+README_RESULTS_START = "<!-- AUTO_BENCHMARK_RESULTS_START -->"
+README_RESULTS_END = "<!-- AUTO_BENCHMARK_RESULTS_END -->"
 
 # =========================================================
 # TARGET API
@@ -195,6 +204,83 @@ def print_result(result):
 
 
 # =========================================================
+# README RESULTS & GIT COMMIT
+# =========================================================
+
+def _project_root() -> Path:
+    return Path(__file__).resolve().parent
+
+
+def _format_results_markdown(all_results: list) -> str:
+    stamp = datetime.now(timezone.utc).strftime("%Y-%m-%d %H:%M UTC")
+    cores = multiprocessing.cpu_count()
+    lines = [
+        f"*Generated {stamp} · CPU cores: {cores}*",
+        "",
+        "| Technique | Requests | Success | Duration | Throughput |",
+        "|-----------|----------|---------|----------|------------|",
+    ]
+    for row in all_results:
+        lines.append(
+            f"| {row['Technique']} | {row['Requests']} | {row['Success']} | "
+            f"{row['Duration']} sec | {row['Throughput']} req/sec |"
+        )
+    return "\n".join(lines)
+
+
+def update_readme_results(all_results: list) -> Path:
+    root = _project_root()
+    path = root / README_FILE
+    text = path.read_text(encoding="utf-8")
+    start = text.find(README_RESULTS_START)
+    end = text.find(README_RESULTS_END)
+    if start == -1 or end == -1 or end < start:
+        raise RuntimeError(
+            f"{README_FILE} must contain {README_RESULTS_START} and "
+            f"{README_RESULTS_END} markers around the results section."
+        )
+    start_cut = start + len(README_RESULTS_START)
+    block = _format_results_markdown(all_results)
+    new_text = text[:start_cut] + "\n\n" + block + "\n\n" + text[end:]
+    path.write_text(new_text, encoding="utf-8")
+    return path
+
+
+def _git(args: list[str], cwd: Path) -> subprocess.CompletedProcess:
+    return subprocess.run(
+        ["git", *args],
+        cwd=cwd,
+        capture_output=True,
+        text=True,
+    )
+
+
+def try_commit_readme(readme_path: Path) -> None:
+    if os.environ.get("ITT_NO_GIT", "").strip().lower() in ("1", "true", "yes"):
+        return
+
+    cwd = readme_path.parent
+    probe = _git(["rev-parse", "--is-inside-work-tree"], cwd=cwd)
+    if probe.returncode != 0 or probe.stdout.strip().lower() != "true":
+        return
+
+    _git(["add", "--", readme_path.name], cwd=cwd)
+    diff = _git(["diff", "--cached", "--quiet"], cwd=cwd)
+    if diff.returncode == 0:
+        return
+
+    stamp = datetime.now(timezone.utc).strftime("%Y-%m-%d %H:%M UTC")
+    commit = _git(
+        ["commit", "-m", f"Update benchmark results in README ({stamp})"],
+        cwd=cwd,
+    )
+    if commit.returncode != 0:
+        return
+
+    _git(["push"], cwd=cwd)
+
+
+# =========================================================
 # MAIN PROGRAM
 # =========================================================
 
@@ -205,6 +291,8 @@ def main():
     print("================================================")
 
     print(f"CPU Cores Available: {multiprocessing.cpu_count()}")
+
+    all_results: list = []
 
     for size in TEST_SIZES:
 
@@ -219,6 +307,7 @@ def main():
         )
 
         print_result(asyncio_result)
+        all_results.append(asyncio_result)
 
         # -------------------------------------------------
         # THREADING
@@ -227,6 +316,7 @@ def main():
         threading_result = run_threading_test(size)
 
         print_result(threading_result)
+        all_results.append(threading_result)
 
         # -------------------------------------------------
         # MULTIPROCESSING
@@ -235,6 +325,10 @@ def main():
         multiprocessing_result = run_multiprocessing_test(size)
 
         print_result(multiprocessing_result)
+        all_results.append(multiprocessing_result)
+
+    readme_path = update_readme_results(all_results)
+    try_commit_readme(readme_path)
 
 
 # =========================================================
@@ -245,4 +339,8 @@ if __name__ == "__main__":
 
     multiprocessing.freeze_support()
 
-    main()
+    try:
+        main()
+    except KeyboardInterrupt:
+        print("\nInterrupted.", file=sys.stderr)
+        sys.exit(130)
