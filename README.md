@@ -142,7 +142,7 @@ The program will automatically:
 5. Calculate throughput
 6. Display comparison result
 7. Refresh the **Test Result Summary** table in this README (see markers `AUTO_BENCHMARK_RESULTS`)
-8. Optionally commit `README.md` to git (no push)
+8. Optionally commit and `git push` the updated `README.md`
 
 ---
 
@@ -275,19 +275,19 @@ CPU Cores Available: 16
 
 <!-- AUTO_BENCHMARK_RESULTS_START -->
 
-*Generated 2026-05-15 02:18 UTC · CPU cores: 16*
+*Generated 2026-05-15 02:44 UTC · CPU cores: 16*
 
 | Technique | Requests | Success | Duration | Throughput |
 |-----------|----------|---------|----------|------------|
-| asyncio | 50 | 50 | 0.97 sec | 51.41 req/sec |
-| threading | 50 | 50 | 3.62 sec | 13.83 req/sec |
-| multiprocessing | 50 | 50 | 6.67 sec | 7.49 req/sec |
-| asyncio | 200 | 200 | 1.3 sec | 153.66 req/sec |
-| threading | 200 | 200 | 13.69 sec | 14.61 req/sec |
-| multiprocessing | 200 | 200 | 23.59 sec | 8.48 req/sec |
-| asyncio | 500 | 500 | 2.53 sec | 197.28 req/sec |
-| threading | 500 | 500 | 33.89 sec | 14.75 req/sec |
-| multiprocessing | 500 | 500 | 57.28 sec | 8.73 req/sec |
+| asyncio | 50 | 50 | 1.07 sec | 46.84 req/sec |
+| threading | 50 | 50 | 3.92 sec | 12.74 req/sec |
+| multiprocessing | 50 | 50 | 10.1 sec | 4.95 req/sec |
+| asyncio | 200 | 200 | 1.0 sec | 199.53 req/sec |
+| threading | 200 | 200 | 15.95 sec | 12.54 req/sec |
+| multiprocessing | 200 | 200 | 35.51 sec | 5.63 req/sec |
+| asyncio | 500 | 500 | 3.37 sec | 148.46 req/sec |
+| threading | 500 | 500 | 42.99 sec | 11.63 req/sec |
+| multiprocessing | 500 | 500 | 93.6 sec | 5.34 req/sec |
 
 <!-- AUTO_BENCHMARK_RESULTS_END -->
 
