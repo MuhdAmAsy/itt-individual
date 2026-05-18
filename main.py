@@ -1,3 +1,7 @@
+import sys
+
+sys.dont_write_bytecode = True
+
 """
 ===========================================================
 Parallel Programming Assignment
@@ -22,7 +26,6 @@ import aiohttp
 import multiprocessing
 import os
 import subprocess
-import sys
 import time
 from concurrent.futures import ProcessPoolExecutor, ThreadPoolExecutor
 from datetime import datetime, timezone
