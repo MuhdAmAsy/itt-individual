@@ -152,8 +152,7 @@ The program will automatically:
 itt-assignment/
 │
 ├── main.py
-├── README.md
-└── requirements.txt
+└── README.md
 ```
 
 Description:
@@ -162,7 +161,6 @@ Description:
 |-------|----------|
 | main.py | Main program source code |
 | README.md | Documentation |
-| requirements.txt | Required Python libraries |
 
 ---
 
@@ -275,19 +273,19 @@ CPU Cores Available: 16
 
 <!-- AUTO_BENCHMARK_RESULTS_START -->
 
-*Generated 2026-05-18 01:57 UTC · CPU cores: 16*
+*Generated 2026-05-18 02:06 UTC · CPU cores: 16*
 
 | Technique | Requests | Success | Duration | Throughput |
 |-----------|----------|---------|----------|------------|
-| asyncio | 50 | 50 | 0.9 sec | 55.38 req/sec |
-| threading | 50 | 50 | 3.45 sec | 14.5 req/sec |
-| multiprocessing | 50 | 50 | 6.73 sec | 7.43 req/sec |
-| asyncio | 200 | 200 | 1.27 sec | 157.27 req/sec |
-| threading | 200 | 200 | 13.52 sec | 14.8 req/sec |
-| multiprocessing | 200 | 200 | 36.14 sec | 5.53 req/sec |
-| asyncio | 500 | 500 | 2.98 sec | 167.62 req/sec |
-| threading | 500 | 500 | 43.95 sec | 11.38 req/sec |
-| multiprocessing | 500 | 500 | 93.85 sec | 5.33 req/sec |
+| asyncio | 50 | 50 | 0.88 sec | 56.92 req/sec |
+| threading | 50 | 50 | 4.35 sec | 11.48 req/sec |
+| multiprocessing | 50 | 50 | 10.97 sec | 4.56 req/sec |
+| asyncio | 200 | 200 | 1.61 sec | 124.42 req/sec |
+| threading | 200 | 200 | 19.29 sec | 10.37 req/sec |
+| multiprocessing | 200 | 200 | 42.23 sec | 4.74 req/sec |
+| asyncio | 500 | 500 | 3.97 sec | 126.05 req/sec |
+| threading | 500 | 500 | 50.75 sec | 9.85 req/sec |
+| multiprocessing | 500 | 500 | 102.47 sec | 4.88 req/sec |
 
 <!-- AUTO_BENCHMARK_RESULTS_END -->
 
