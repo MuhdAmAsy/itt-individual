@@ -275,19 +275,19 @@ CPU Cores Available: 16
 
 <!-- AUTO_BENCHMARK_RESULTS_START -->
 
-*Generated 2026-05-15 02:44 UTC · CPU cores: 16*
+*Generated 2026-05-18 01:57 UTC · CPU cores: 16*
 
 | Technique | Requests | Success | Duration | Throughput |
 |-----------|----------|---------|----------|------------|
-| asyncio | 50 | 50 | 1.07 sec | 46.84 req/sec |
-| threading | 50 | 50 | 3.92 sec | 12.74 req/sec |
-| multiprocessing | 50 | 50 | 10.1 sec | 4.95 req/sec |
-| asyncio | 200 | 200 | 1.0 sec | 199.53 req/sec |
-| threading | 200 | 200 | 15.95 sec | 12.54 req/sec |
-| multiprocessing | 200 | 200 | 35.51 sec | 5.63 req/sec |
-| asyncio | 500 | 500 | 3.37 sec | 148.46 req/sec |
-| threading | 500 | 500 | 42.99 sec | 11.63 req/sec |
-| multiprocessing | 500 | 500 | 93.6 sec | 5.34 req/sec |
+| asyncio | 50 | 50 | 0.9 sec | 55.38 req/sec |
+| threading | 50 | 50 | 3.45 sec | 14.5 req/sec |
+| multiprocessing | 50 | 50 | 6.73 sec | 7.43 req/sec |
+| asyncio | 200 | 200 | 1.27 sec | 157.27 req/sec |
+| threading | 200 | 200 | 13.52 sec | 14.8 req/sec |
+| multiprocessing | 200 | 200 | 36.14 sec | 5.53 req/sec |
+| asyncio | 500 | 500 | 2.98 sec | 167.62 req/sec |
+| threading | 500 | 500 | 43.95 sec | 11.38 req/sec |
+| multiprocessing | 500 | 500 | 93.85 sec | 5.33 req/sec |
 
 <!-- AUTO_BENCHMARK_RESULTS_END -->
 
